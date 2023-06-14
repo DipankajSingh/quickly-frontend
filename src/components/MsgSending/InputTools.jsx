@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
-import { MsgCtx } from '../App';
-import ReciverBubble from './ReciverBubble';
+import { MsgCtx } from '../../App';
+import ReciverBubble from '../conversation/ReciverBubble';
 import ReplyPreview from './ReplyPreview';
 
 function InputTools() {

@@ -1,10 +1,8 @@
-import React, { useContext } from 'react'
-import { RplTxt } from '../App'
+import React from 'react'
 function ReplyPreview({ message }) {
-    const [replyTxt, setReplyTxt] = useContext(RplTxt)
     return (
         <div className={`
-        ${replyTxt === "" ? "hidden" : ""}
+        
         absolute
         bg-slate-700
         w-[80%]
@@ -26,9 +24,6 @@ function ReplyPreview({ message }) {
           px-2
             '>{message}</span>
             <button
-                onClick={(e) => {
-                    e.target.parentElement.classList.add('hidden')
-                }}
                 className='
             absolute
             text-black

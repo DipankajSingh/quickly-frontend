@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import Login from "./components/Login";
-import Conversation from "./components/Conversation";
+import Login from "./components/home/Login";
+import Conversation from "./components/conversation/Conversation";
 import './App.css'
 import React, { useState } from "react";
 

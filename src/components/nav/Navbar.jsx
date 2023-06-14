@@ -46,7 +46,7 @@ function Navbar() {
             <div>
                 <button className='
                 w-5
-                '><img src="/exit.svg" alt="" srcset="" /></button>
+                '><img src="/exit.svg" alt="Exit Room" /></button>
             </div>
         </nav>
     )

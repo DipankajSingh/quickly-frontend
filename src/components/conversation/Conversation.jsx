@@ -1,9 +1,7 @@
-import React, { useContext, useState } from 'react'
-import Navbar from './Navbar'
+import React from 'react'
+import Navbar from '../nav/Navbar'
 import MessageContainer from './MessageContainer'
-import InputTools from './InputTools'
-
-
+import InputTools from '../MsgSending/InputTools'
 
 function Conversation() {
 

@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import SenderBubble from './SenderBubble'
-import ReciverBubble from './ReciverBubble'
-import { MsgCtx } from '../App';
+import React, { useContext, useEffect, useRef } from 'react'
+import { MsgCtx } from '../../App';
 
 function MessageContainer() {
     const containerRef = useRef(null)
