@@ -1,22 +1,85 @@
 import React, { useState } from 'react';
 import AppHeading from './AppHeading';
 import { useNavigate } from 'react-router-dom';
+import { socket } from '../connection/socket';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../store';
 
 function Login() {
+
+
     const [roomInputValue, setRoomInputValue] = useState('');
     const [nameInputValue, setNameInputValue] = useState('');
+
+    //credencials
+    const dispatch = useDispatch();
+
+    const userName = useSelector((state) => {
+        const data = state.user.value.userName
+        return data
+    })
+
     const navigate = useNavigate()
+
+
     const handleRoomInputChange = (e) => {
         setRoomInputValue(e.target.value);
     };
 
+    // navigating to conversation route if user data found in local storage and if valid
+    let lclStrgData = localStorage.getItem('userData')
+    lclStrgData = JSON.parse(lclStrgData)
+
+    if (lclStrgData) {
+        console.log(lclStrgData)
+        if (lclStrgData?.userName && lclStrgData?.roomName) {
+            if (!socket.connected) {
+                socket.connect()
+                socket.on('connect', () => {
+                    toast('You are online!', { type: 'success' })
+                    navigate('/conversation')
+                })
+            }
+        }
+    }
+
     const handleNameInputChange = (e) => {
         setNameInputValue(e.target.value);
+        dispatch(login({ userName: nameInputValue }))
     };
 
-    const handleSubmit = (e) => {
+    // handle login
+    const handleSubmit = async (e) => {
+
+        toast(userName, { type: "info" })
+        const userData = {
+            userName: nameInputValue,
+            roomName: roomInputValue,
+            socketId: socket.id
+        }
+
         e.preventDefault();
-        navigate('/conversation')
+
+        if (isFormValid) {
+            if (!socket.connected) {
+                socket.connect();
+                socket.emit('handleLogin', userData)
+                socket.on('connect', () => {
+                    toast('Logged in!', { type: 'success' })
+                    // save login detail to local storage
+                    localStorage.setItem('userData', JSON.stringify({ ...userData }))
+                    navigate('/conversation')
+                })
+            }
+
+            else {
+                // if already connected to socket
+                navigate('/conversation')
+                toast('Logged in, Already!', { type: 'success' })
+
+            }
+        }
     };
 
     const isFormValid = roomInputValue.trim() !== '' && nameInputValue.trim() !== '';

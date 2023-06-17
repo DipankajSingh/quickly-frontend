@@ -1,5 +1,5 @@
 import React from 'react'
-import Reply from './Reply'
+import Reply from './ReplyBtn'
 
 function ReciverBubble({ message }) {
     return (

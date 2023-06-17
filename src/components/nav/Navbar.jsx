@@ -1,6 +1,24 @@
 import React from 'react'
+import ProfileInfo from './ProfileInfo'
+import { socket } from '../connection/socket'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 function Navbar() {
+    const navigate = useNavigate()
+    function handleLoguot() {
+        localStorage.clear()
+        console.log("hiiii")
+        if (socket.connected) {
+            socket.disconnect()
+            toast("You logged out Successfully!", { type: "info" })
+            navigate('/')
+        } else {
+            toast("Already disconnected to server!", { type: "info" })
+            navigate('/')
+        }
+    }
+
     return (
         <nav className=' sticky
         h-16
@@ -13,38 +31,14 @@ function Navbar() {
         top-0
         z-10
         '>
-            <div className='
-            flex
-            gap-2
-            '>
-                <p className=' 
-                rounded-full
-                h-11 w-11
-                grid
-                place-items-center 
-              bg-lime-600
-              text-3xl
-              font-extrabold
-              font-mono
-              '>S</p>
-
-                <div className='
-                flex
-                flex-col
-                '>
-                    <span className='
-                    text-xl
-                    capitalize
-                    font-serif
-                    '>Senorita</span>
-                    <span className='
-                    text-xs
-                    font-mono
-                    '>Online</span>
-                </div>
-            </div>
+            <ProfileInfo></ProfileInfo>
             <div>
-                <button className='
+                {/* handling loguot event */}
+                <button
+
+                    onClick={handleLoguot}
+
+                    className='
                 w-5
                 '><img src="/exit.svg" alt="Exit Room" /></button>
             </div>

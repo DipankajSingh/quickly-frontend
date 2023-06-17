@@ -1,11 +1,18 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useRef } from 'react'
 import { MsgCtx } from '../../App';
 import ReciverBubble from '../conversation/ReciverBubble';
 import ReplyPreview from './ReplyPreview';
+// import { toast } from 'react-toastify';
+import { socket } from '../connection/socket';
 
 function InputTools() {
     const [messages, setMessage] = useContext(MsgCtx);
-
+    const messageInputRef = useRef()
+    // const [isReplying, setIsReplying] = useState(false)
+    // const messageDetail={
+    //     messages,
+    //     senderName:
+    // }
     const [messageInput, setMessageInput] = useState('')
     return (
         <div className='
@@ -20,7 +27,7 @@ function InputTools() {
         bg-slate-800
         px-2
         '>
-            <input type="text" className='
+            <input type="text" ref={messageInputRef} className='
             w-3/4
             h-11
             rounded
@@ -28,6 +35,17 @@ function InputTools() {
             px-3
             outline-none
             '
+                onKeyDown={(e) => {
+                    let os = navigator?.userAgentData?.platform || navigator?.platform || 'unknown';
+                    if (os === 'Win32') {
+                        if (e.key === 'Enter') {
+                            socket.emit("handleMessageSending",)
+                            setMessage([...messages, <ReciverBubble message={messageInput} />])
+                            setMessageInput('')
+                            messageInputRef.current.focus()
+                        }
+                    }
+                }}
                 value={messageInput}
                 onChange={(e) => {
                     setMessageInput(e.target.value)
@@ -40,8 +58,9 @@ function InputTools() {
                 w-6
             
             ' src="/send.svg" alt="send" onClick={() => {
-
                         setMessage([...messages, <ReciverBubble message={messageInput} />])
+                        setMessageInput('')
+                        messageInputRef.current.focus()
                     }} /></button>
             <button className='relative grid place-items-center p-2 rounded-md bg-white'>
                 <img className='
